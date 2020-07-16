@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            height: 700px;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        div{
+            height: 200px;
+            width: 200px;
+            background: red;
+            position: absolute;
+        }
+        div span{
+             float: right;
+            width: 25px;
+            height: 25px;
+            border: 1px solid #aaa;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <span>X</span>
+    </div>
+    <script src="wheel.js"></script>
+    <script>
+       //offsetLeft获取到的值 css position  
+       //位置：
+        //    如果说哟个和元素没有设置position属性，那么 
+       var win = document.querySelector("body");     
+       var div = document.querySelector("div");
+       var bot = document.querySelector("div span");
+       var num = 0;
+       var hum = 0;
+       var h = Math.floor( win.offsetHeight/div.offsetHeight);
+       var w = Math.floor( win.offsetWidth/div.offsetWidth)
+       var m = 0;      
+       var n =0;
+       console.log(h)
+       console.log(win.offsetWidth);
+       console.log(win.offsetHeight);
+        var move = function () {
+            num++;
+            hum++;
+            n = hum;
+            m = num;
+            if ( num > h-1) {
+                num = 0;
+                m = -num;
+            }
+            if (hum > w-1){
+                hum = 0;
+                n = -hum;
+            }
+            animate(div, {
+                "margin-left":  n * div.offsetWidth,
+                "margin-top":   m * div.offsetWidth
+            }, 300)
+            
+           
+        }
+        
+    </script>
+</body>
+</html>

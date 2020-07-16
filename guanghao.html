@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: yellow;
+            position: fixed;
+        }
+
+        span {
+            float: right;
+            width: 25px;
+            height: 25px;
+            border: 1px solid #aaa;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <span>x</span>
+    </div>
+    <script src="wheel.js"></script>
+    <script>
+        var box = document.querySelector(".box");
+        var close = document.querySelector("span");
+        var speedx = 10;
+        var speedy = 10;
+        var move = function () {
+                var left = box.offsetLeft;
+                var top = box.offsetTop;
+                var lefts = left + speedx;
+                var tops = top + speedy;
+                box.style.top = tops + "px";
+                box.style.left = lefts + "px";
+                if (tops > document.documentElement.clientHeight - box.offsetHeight) { tops = document.documentElement.clientHeight - box.offsetHeight; speedy = -speedy; }
+                if (tops < 0) {
+                    tops = 0;
+                    speedy = -speedy;
+                }
+                if (lefts > document.documentElement.clientWidth - box.offsetWidth) { lefts = document.documentElement.clientWidth - box.offsetWidth; speedx = -speedx; }
+                if (lefts < 0) {
+                    lefts = 0;
+                    speedx = -speedx;
+                }
+            }
+        var t = setInterval(move, 40)
+        //如何注销一个事件
+        box.onmouseover = function () {
+                clearInterval(t);
+            }
+            box.onmouseout = function () {
+                t = setInterval(move, 40)
+            }
+             var flag = true; 
+        close.onclick = function () {
+             if (flag) {
+            box.onmouseout = null;
+            close.innerHTML = "口";
+                     
+           animate(box,{
+                width:150,
+                height:40,
+                left:document.documentElement.clientWidth - 180,
+                top:document.documentElement.clientHeight - 60
+                
+            },500)
+            flag = false; 
+        }
+        else{
+            close.innerHTML = "X";
+            animate(box, {
+                    width: 200,
+                    height: 200,
+                    left:0,
+                    top:0
+                }, 500,Tween.Linear,function(){
+                    t = setInterval(move,40);
+                       //如何注销一个事件
+                     box.onmouseover = function () {
+                        clearInterval(t);
+                    }
+                    box.onmouseout = function () {
+                        t = setInterval(move, 40)
+                    }
+                })
+                flag = true;
+        }
+        }
+    </script>
+</body>
+
+</html>
